@@ -10,8 +10,12 @@ Preschool averages, by girls and boys, for all 47 Kenyan counties in 2013.
 
 ### To Do
 1. Giant, transparent colored circle following the cursor around.
-2. `ogr2ogr` the Kenya county shapefiles.
-3. 
+2. ~~`ogr2ogr` the Kenya county shapefiles.~~
+3. Merge the shapefile county data with the enrolment data.
+4. ~~Check the GEOjsoning worked.~~
+5. Bounded box scale thing.
+
+
 
   
 
