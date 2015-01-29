@@ -29,6 +29,7 @@ Preschool averages, by girls and boys, for all 47 Kenyan counties in 2013.
 * Tutorial: [School of Data - How to: Choropleth maps with d3](http://schoolofdata.org/2014/06/06/how-to-choropleth-maps-with-d3/)
 * Resource: [LeafLet.js](http://leafletjs.com/reference.html)
 * Resource: [Mike Bostock - Choropleth](http://bl.ocks.org/mbostock/4060606)
+* Resource: [Mike Bostock - Project to bounding box](http://bl.ocks.org/mbostock/4707858)
 
 
 
