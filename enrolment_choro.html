@@ -7,54 +7,212 @@
 	<title>Preschool enrolment, Kenya, 2013</title>
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 	<style type="text/css">
+
+.q0 { fill:rgb(232,232,232); }
+.q0-9 { fill:rgb(165,0,38); }
+.q1-9 { fill:rgb(215,48,39); }
+.q2-9 { fill:rgb(244,109,67); }
+.q3-9 { fill:rgb(253,174,97); }
+.q4-9 { fill:rgb(254,224,139); }
+.q5-9 { fill:rgb(217,239,139); }
+.q6-9 { fill:rgb(166,217,106); }
+.q7-9 { fill:rgb(102,189,99); }
+.q8-9 { fill:rgb(26,152,80); }
+.q9-9 { fill:rgb(0,104,55); }
+
 	</style>
 </head>
 <body>
 
+	<p>Interested in a particular subset? Select from below.</p>
+
+    <div class="user-form">
+      <p>
+      Gender: <select id="subset">
+          <option value="boys_">Only boys</option>
+          <option value="girls_">Only girls</option>
+        </select>
+      </p>
+
+      <p>
+      Age: <select id="age">
+          <option value="3yrs">3 year olds</option>
+          <option value="4yrs">4 year olds</option>
+          <option value="5yrs">5 year olds</option>
+        </select>
+      </p>
+
+      <input name="updateButton" 
+           type="button" 
+           class="update-button"
+           value="Update" />
+
+	<input name="resetButton" 
+	type="button" 
+	class="reset-button"
+	value="Reset" />
+    
+    </div>
+
 	<script type="text/javascript">
 
-		var w = 800,
-			h = 500,
-			json;
+		var w = 1000,
+			h = 1000;
 
 		var svg = d3.select("body")
 			.append("svg")
 			.attr("width", w)
 			.attr("height", h);
 
+		var quantize = d3.scale.quantize()
+			.domain([0, 1])
+			.range(["rgb(247,251,255)", 
+					"rgb(222,235,247)", 
+					"rgb(198,219,239)", 
+					"rgb(158,202,225)",
+					"rgb(107,174,214)",
+					"rgb(66,146,198)",
+					"rgb(33,113,181)",
+					"rgb(8,81,156)",
+					"rgb(8,48,107)"]); 
 
 		var projection = d3.geo.mercator()
-			.translate([w/30,h/2])
-			.scale(1000);
+			.rotate([5,0,0])
+			.translate([w/30-2500,h/2-100])
+			.scale(4000);
 
 		var path = d3.geo.path()
 			.projection(projection);
 
+		function colorType(d) {
+			var value = d.properties.enrolment;
+			if (value) {
+				return quantize(value);
+			} else {
+				console.log("Undefined: " + d.properties.COUNTY + ", " + value);
+			}
+		}
+
 		//Data
 		d3.json("counties.json", function(json) {
-			
-			svg.selectAll("path")
-			   .data(json.features)
-			   .enter()
-			   .append("path")
-			   .attr("d", path)
-			   .style("fill", "steelblue");
 
-		console.log(json.features);
+			d3.csv("enrolment.csv", function(csv) {
 
-		//Bounding box - why can't I do this out of the json call?
-		//How do I get to the outline of Kenya for path.bounds?
-		var b = path.bounds(json.features),
-			s = .95 / Math.max((b[1][0] - b[0][0]) / w, (b[1][1] - b[0][1]) / h),
-			t = [(w - s * (b[1][0] + b[0][0])) / 2, (h - s * (b[1][1] + b[0][1])) / 2];
+	            //De-stringing
+	            csv.forEach(function(d) { 
+	            	for (var i = 3; i<=5; i++) {
+	              		d["boys_"+i+"yrs"] = +d["boys_"+i+"yrs"];
+	              		d["girls_"+i+"yrs"] = +d["girls_"+i+"yrs"];
+	              		d.avg_all = +d.avg_all;
+	             		}
+	            });
 
-		projection.scale(s).translate(t);
+	            //Can I collapse this all into a loop?
+	            for (var i = 0; i < csv.length; i++) {
+	            	var csvCounty = csv[i].county,
+	            		avg_all = csv[i].avg_all,
+	            		boys_3yrs = csv[i].boys_3yrs,
+	            		boys_4yrs = csv[i].boys_4yrs,
+	            		boys_5yrs = csv[i].boys_5yrs,
+	            		girls_3yrs = csv[i].girls_3yrs,
+	            		girls_4yrs = csv[i].girls_4yrs,
+	            		girls_5yrs = csv[i].girls_5yrs;
+
+	            //Merging csv with geojson data
+	            	for (var j = 0; j < json.features.length; j++) {
+
+	            		var jsonCounty = json.features[j].properties.COUNTY;
+
+	            		if (csvCounty == jsonCounty) {
+
+	            			json.features[j].properties.avg_all = avg_all;
+	            			json.features[j].properties.boys_3yrs = boys_3yrs;
+	            			json.features[j].properties.boys_4yrs = boys_4yrs;
+	            			json.features[j].properties.boys_5yrs = boys_5yrs;
+	            			json.features[j].properties.girls_3yrs = girls_3yrs;
+	            			json.features[j].properties.girls_4yrs = girls_4yrs;
+	            			json.features[j].properties.girls_5yrs = girls_5yrs;
+
+	            			break;
+
+	            		}
+	            	}
+	            }
 
 
-		}); //json closer
+					var counties = svg.selectAll("path")
+					   .data(json.features);
 
-					
+					counties.enter()
+					   .append("path")
+					   .attr("d", path)
+					   .attr("stroke", "white")
+					   .attr("fill", "white");
 
+					function firstViz() {
+
+					 counties.transition()
+					 	.duration(750)
+					 	.attr("fill", function(d) {
+					   		if (d.properties.avg_all) {
+								return quantize(d.properties.avg_all);
+					   		} else {
+					   			return "rgb(232,232,232)";
+					   		}					   		
+					   });
+
+					//Static labels for printing
+					/*
+					    svg.selectAll("text")
+						    .data(json.features)
+						    .enter()
+						    .append("svg:text")
+						    .text(function(d){
+						        return d.properties.COUNTY;
+						    })
+						    .attr("x", function(d){
+						        return path.centroid(d)[0];
+						    })
+						    .attr("y", function(d){
+						        return  path.centroid(d)[1];
+						    })
+						    .attr("font-family", "Arial")
+						    .attr("text-anchor","middle")
+						    .attr("font-size","4pt");
+						*/
+
+					}
+
+					firstViz();
+
+
+				//Update function to look at subsets
+				d3.select('input[class=update-button]').on('click', function() {
+
+					var userSubset = document.getElementById("subset").value,
+						userAge = document.getElementById("age").value,
+						userSelection = userSubset + userAge;
+
+					counties.transition()
+						.duration(750)
+						.attr("fill", function(d) {
+					   		if (d.properties[userSelection]) {
+					   			return quantize(d.properties[userSelection]);
+					   		} else {
+					   			return "rgb(232,232,232)";
+					   		}					   		
+					   });
+					}); //update function closer
+
+
+				//Reset to the original, aggregated version
+				d3.select('input[class=reset-button]').on('click', function() {
+					firstViz();
+					}); 
+
+
+				}); //csv closer
+			}); //json closer
 			
 		</script>
 	</body>
