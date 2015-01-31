@@ -8,51 +8,14 @@
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 	<style type="text/css">
 
-.q0 { fill:rgb(232,232,232); }
-.q0-9 { fill:rgb(165,0,38); }
-.q1-9 { fill:rgb(215,48,39); }
-.q2-9 { fill:rgb(244,109,67); }
-.q3-9 { fill:rgb(253,174,97); }
-.q4-9 { fill:rgb(254,224,139); }
-.q5-9 { fill:rgb(217,239,139); }
-.q6-9 { fill:rgb(166,217,106); }
-.q7-9 { fill:rgb(102,189,99); }
-.q8-9 { fill:rgb(26,152,80); }
-.q9-9 { fill:rgb(0,104,55); }
+.svg {
+	position: absolute;
+	float: right;
+}
 
 	</style>
 </head>
 <body>
-
-	<p>Interested in a particular subset? Select from below.</p>
-
-    <div class="user-form">
-      <p>
-      Gender: <select id="subset">
-          <option value="boys_">Only boys</option>
-          <option value="girls_">Only girls</option>
-        </select>
-      </p>
-
-      <p>
-      Age: <select id="age">
-          <option value="3yrs">3 year olds</option>
-          <option value="4yrs">4 year olds</option>
-          <option value="5yrs">5 year olds</option>
-        </select>
-      </p>
-
-      <input name="updateButton" 
-           type="button" 
-           class="update-button"
-           value="Update" />
-
-	<input name="resetButton" 
-	type="button" 
-	class="reset-button"
-	value="Reset" />
-    
-    </div>
 
 	<script type="text/javascript">
 
@@ -83,15 +46,6 @@
 
 		var path = d3.geo.path()
 			.projection(projection);
-
-		function colorType(d) {
-			var value = d.properties.enrolment;
-			if (value) {
-				return quantize(value);
-			} else {
-				console.log("Undefined: " + d.properties.COUNTY + ", " + value);
-			}
-		}
 
 		//Data
 		d3.json("counties.json", function(json) {
@@ -140,15 +94,70 @@
 	            }
 
 
+
 					var counties = svg.selectAll("path")
 					   .data(json.features);
 
+
+					//Prepping for a fade-in
 					counties.enter()
 					   .append("path")
 					   .attr("d", path)
 					   .attr("stroke", "white")
 					   .attr("fill", "white");
 
+
+					var buttons = svg.append("g");
+
+					//On-canvas buttons
+					//Boys
+					buttons.append("rect")
+						.attr("width", 50)
+						.attr("height", 30)
+						.attr("x", "50px")
+						.attr("y", "100px")
+						.attr("fill", "navy");
+
+					//Girls
+					buttons.append("rect")
+						.attr("width", 50)
+						.attr("height", 30)
+						.attr("x", "100px")
+						.attr("y", "100px")
+						.attr("fill", "pink");
+
+
+					//3 year olds
+					buttons.append("rect")
+						.attr("width", 40)
+						.attr("height", 30)
+						.attr("x", "40px")
+						.attr("y", "130px")
+						.attr("fill", "gray");
+
+
+					//4 year olds
+					buttons.append("rect")
+						.attr("width", 40)
+						.attr("height", 30)
+						.attr("x", "80px")
+						.attr("y", "130px")
+						.attr("fill", "black");
+
+					//5 year olds
+					buttons.append("rect")
+						.attr("width", 40)
+						.attr("height", 30)
+						.attr("x", "120")
+						.attr("y", "130px")
+						.attr("fill", "gray");
+
+					buttons.attr("transform", "translate(0,200)")
+						.attr("transform", "scale(2)");
+
+
+
+					//The initial, aggregate-level map
 					function firstViz() {
 
 					 counties.transition()
