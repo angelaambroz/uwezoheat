@@ -23,7 +23,7 @@
 
 		var quantize = d3.scale.quantize()
 			.domain([0, 1])
-			.range(["rgb(247,251,255)", 
+			.range(["rgb(247,251,255)", //monochromatic scale
 					"rgb(222,235,247)", 
 					"rgb(198,219,239)", 
 					"rgb(158,202,225)",
@@ -105,46 +105,82 @@
 
 					//On-canvas buttons
 					//Boys
-					buttons.append("rect")
+					var boys = buttons.append("g");
+
+					boys.append("rect")
 						.attr("width", 50)
 						.attr("height", 30)
 						.attr("x", "50px")
 						.attr("y", "100px")
 						.attr("fill", "navy");
 
+					boys.append("text")
+						.attr("x", "60px")
+						.attr("y", "120px")
+						.text("Boys");
+
 					//Girls
-					buttons.append("rect")
+					var girls = buttons.append("g");
+
+					girls.append("rect")
 						.attr("width", 50)
 						.attr("height", 30)
 						.attr("x", "100px")
 						.attr("y", "100px")
 						.attr("fill", "pink");
 
+					girls.append("text")
+						.attr("x", "110px")
+						.attr("y", "120px")
+						.text("Girls");
+
 
 					//3 year olds
-					buttons.append("rect")
+					var threes = buttons.append("g");
+
+					threes.append("rect")
 						.attr("width", 40)
 						.attr("height", 30)
 						.attr("x", "40px")
 						.attr("y", "130px")
 						.attr("fill", "gray");
 
+					threes.append("text")
+						.attr("x", "50px")
+						.attr("y", "150px")
+						.text("3s");
 
 					//4 year olds
-					buttons.append("rect")
+					var fours = buttons.append("g");
+					
+					fours.append("rect")
 						.attr("width", 40)
 						.attr("height", 30)
 						.attr("x", "80px")
 						.attr("y", "130px")
 						.attr("fill", "black");
 
+					fours.append("text")
+						.attr("x", "90px")
+						.attr("y", "150px")
+						.text("4s");
+
 					//5 year olds
-					buttons.append("rect")
+					var fives = buttons.append("g");
+
+					fives.append("rect")
 						.attr("width", 40)
 						.attr("height", 30)
 						.attr("x", "120")
 						.attr("y", "130px")
 						.attr("fill", "gray");
+
+					fives.append("text")
+						.attr("x", "130px")
+						.attr("y", "150px")
+						.text("5s");
+
+
 
 					buttons.attr("transform", "translate(0,100) scale(1.3)");
 

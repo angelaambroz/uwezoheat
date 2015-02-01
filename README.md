@@ -23,7 +23,7 @@ Preschool averages, by girls and boys, for all 47 Kenyan counties in 2013.
 12. ~~Drop-downs for gender, age.~~
 13. Format the tooltip number (percentage).
 14. Style the drop-downs, update button.
-15. `update` function.
+15. ~~`update` function.~~
 16. ~~Enable/disable age drop-down, based on whether `!everyone` is selected.~~
 17. ~~Merge all the options of csv to json.~~
 18. ~~Transition the colors.~~
@@ -34,7 +34,7 @@ Preschool averages, by girls and boys, for all 47 Kenyan counties in 2013.
 23. ~~Replace drop-downs with always-on buttons. (BOY, GIRL, 3, 4, 5.) Add these _to_ the `svg`, so no scrolling is needed.~~
 24. Add functionality to buttons (via `class`, `.on(click)`, `hover`, etc...). 
 25. Style the buttons - prettier, milder colors. 
-26. Add text to the buttons.
+26. ~~Add text to the buttons.~~
 
   
 
