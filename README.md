@@ -35,6 +35,7 @@ Preschool averages, by girls and boys, for all 47 Kenyan counties in 2013.
 24. Add functionality to buttons (via `class`, `.on(click)`, `hover`, etc...). 
 25. Style the buttons - prettier, milder colors. 
 26. ~~Add text to the buttons.~~
+27. ~~Awesome-fy the button font.~~
 
   
 
