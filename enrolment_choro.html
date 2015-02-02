@@ -15,6 +15,20 @@
 	font-variant: small-caps;
 }
 
+.buttons:hover{
+	cursor: pointer;
+}
+
+.boys:hover{
+	color: white;
+}
+
+.tiny-label {
+	font: 400 8px Arial;
+	color: gray;
+}
+
+
 	</style>
 </head>
 <body>
@@ -22,7 +36,8 @@
 	<script type="text/javascript">
 
 		var w = 1000,
-			h = 1000;
+			h = 1000,
+			userSubset, userAge;
 
 		var svg = d3.select("body")
 			.append("svg")
@@ -114,14 +129,20 @@
 						.attr("class", "buttons");
 
 					//Boys
-					var boys = buttons.append("g");
+					var boys = buttons.append("g")
+						.on("click", function() {
+							userSubset = "boys";
+							d3.select(".tiny-label")
+								.text("Select age.");			
+						});
 
 					boys.append("rect")
 						.attr("width", 50)
 						.attr("height", 30)
+						.attr("class", "button-rects")
 						.attr("x", "50px")
 						.attr("y", "100px")
-						.attr("fill", "navy");
+						.attr("fill", "#E0E0FF");
 
 					boys.append("text")
 						.attr("x", "60px")
@@ -129,14 +150,19 @@
 						.text("Boys");
 
 					//Girls
-					var girls = buttons.append("g");
+					var girls = buttons.append("g")
+						.on("click", function() {
+							userSubset = "girls";
+							d3.select(".tiny-label")
+								.text("Select age.");
+						});
 
 					girls.append("rect")
 						.attr("width", 50)
 						.attr("height", 30)
 						.attr("x", "100px")
 						.attr("y", "100px")
-						.attr("fill", "pink");
+						.attr("fill", "#FFF5FF");
 
 					girls.append("text")
 						.attr("x", "110px")
@@ -145,14 +171,18 @@
 
 
 					//3 year olds
-					var threes = buttons.append("g");
+					var threes = buttons.append("g")
+						.on("click", function() {
+							userAge = "3yrs";
+							updateViz();
+						});
 
 					threes.append("rect")
 						.attr("width", 40)
 						.attr("height", 30)
 						.attr("x", "40px")
 						.attr("y", "130px")
-						.attr("fill", "gray");
+						.attr("fill", "#DBFFDB");
 
 					threes.append("text")
 						.attr("x", "45px")
@@ -160,14 +190,18 @@
 						.text("3yrs");
 
 					//4 year olds
-					var fours = buttons.append("g");
+					var fours = buttons.append("g")
+						.on("click", function() {
+							userAge = "4yrs";
+							updateViz();
+						});
 					
 					fours.append("rect")
 						.attr("width", 40)
 						.attr("height", 30)
 						.attr("x", "80px")
 						.attr("y", "130px")
-						.attr("fill", "black");
+						.attr("fill", "#C2FFC2");
 
 					fours.append("text")
 						.attr("x", "85px")
@@ -175,12 +209,16 @@
 						.text("4yrs");
 
 					//5 year olds
-					var fives = buttons.append("g");
+					var fives = buttons.append("g")
+						.on("click", function() {
+							userAge = "5yrs";
+							updateViz();
+						});
 
 					fives.append("rect")
 						.attr("width", 40)
 						.attr("height", 30)
-						.attr("x", "120")
+						.attr("x", "120px")
 						.attr("y", "130px")
 						.attr("fill", "gray");
 
@@ -189,6 +227,34 @@
 						.attr("y", "150px")
 						.text("5yrs");
 
+					//Reset button
+					var reset = buttons.append("g")
+						.on("click", function() {
+							d3.select(".tiny-label")
+								.text("Reset to: All-Kenya average.");
+							
+							firstViz();
+						});
+
+					reset.append("rect")
+						.attr("width", 50)
+						.attr("height", 30)
+						.attr("x", "125px")
+						.attr("y", "200px")
+						.attr("fill", "gray");
+
+					reset.append("text")
+						.attr("x", "125px")
+						.attr("y", "220px")
+						.text("Reset");
+
+
+					//Tiny label
+					buttons.append("text")
+						.attr("class", "tiny-label")
+						.attr("x", "40px")
+						.attr("y", "175px")
+						.text("Please make your selection.");
 
 					//Moving the buttons around
 					buttons.attr("transform", "translate(0,100) scale(1.3)");
@@ -198,7 +264,11 @@
 					//The initial, aggregate-level map
 					function firstViz() {
 
-					 counties.transition()
+					//Resetting the user selections
+					userSubset = undefined;
+					userAge = undefined;
+
+					counties.transition()
 					 	.duration(750)
 					 	.attr("fill", function(d) {
 					   		if (d.properties.avg_all) {
@@ -234,11 +304,16 @@
 
 
 				//Update function to look at subsets
-				d3.select('input[class=update-button]').on('click', function() {
+				function updateViz() {
 
-					var userSubset = document.getElementById("subset").value,
-						userAge = document.getElementById("age").value,
-						userSelection = userSubset + userAge;
+					if (!userSubset) { alert("Please select boys or girls.")}
+
+					var userSelection = userSubset + "_" + userAge;
+
+					d3.select(".tiny-label")
+						.text(function() {
+							return "Selected: " + userSubset + ", " + userAge + ".";
+						});
 
 					counties.transition()
 						.duration(750)
@@ -249,14 +324,7 @@
 					   			return "rgb(232,232,232)";
 					   		}					   		
 					   });
-					}); //update function closer
-
-
-
-				//Reset to the original, aggregated version
-				d3.select('input[class=reset-button]').on('click', function() {
-					firstViz();
-					}); 
+					}; //update function closer
 
 
 				}); //csv closer

@@ -32,11 +32,15 @@ Preschool averages, by girls and boys, for all 47 Kenyan counties in 2013.
 21. Color? What do people prefer?
 22. Add a color scale/legend.
 23. ~~Replace drop-downs with always-on buttons. (BOY, GIRL, 3, 4, 5.) Add these _to_ the `svg`, so no scrolling is needed.~~
-24. Add functionality to buttons (via `class`, `.on(click)`, `hover`, etc...). 
-25. Style the buttons - prettier, milder colors. 
+24. ~~Add functionality to buttons (via `class`, `.on(click)`, `hover`, etc...).~~ 
+25. Style the buttons - prettier, milder colors; design for clarity. Rounded corners? Sleeker? 
 26. ~~Add text to the buttons.~~
 27. ~~Awesome-fy the button font.~~
-
+28. ~~Make a new `reset` button (point it to `firstViz()`).~~
+29. ~~Error message if `userSubset` or `userAge` (?) is missing.~~
+30. Move all the `width`, `height` styles to `<style>` for `buttons`.
+31. ~~Tiny text label thingie, under the buttons, about what was selected. e.g. `Selected: boys, 3 years`.~~
+32. Add `boy` and `girl` averages (over all three years) to `.csv`.   
   
 
 
