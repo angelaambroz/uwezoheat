@@ -7,6 +7,7 @@
 	<title>Preschool enrolment, Kenya, 2013</title>
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 	<link href='http://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Shadows+Into+Light+Two' rel='stylesheet' type='text/css'>
 	<style type="text/css">
 
 .buttons {
@@ -25,6 +26,27 @@
 
 .tiny-label {
 	font: 400 8px Arial;
+	color: gray;
+}
+
+.age-circles {
+	stroke: gray;
+	stroke-dasharray: 5,5;
+	fill: white;
+}
+
+.halo-circle {
+	stroke: yellow;
+	stroke-width: 2px;
+}
+
+.title {
+	font: 400 40px 'Shadows Into Light Two', Arial;
+}
+
+.subtitle {
+	font: 400 10px Arial;
+	width: 200px;
 	color: gray;
 }
 
@@ -58,8 +80,8 @@
 
 		var projection = d3.geo.mercator()
 			.rotate([5,0,0])
-			.translate([w/30-2500,h/2-100])
-			.scale(4000);
+			.translate([w/30-2400,h/2-100])
+			.scale(3800);
 
 		var path = d3.geo.path()
 			.projection(projection);
@@ -136,17 +158,19 @@
 								.text("Select age.");			
 						});
 
-					boys.append("rect")
-						.attr("width", 50)
-						.attr("height", 30)
-						.attr("class", "button-rects")
-						.attr("x", "50px")
-						.attr("y", "100px")
-						.attr("fill", "#E0E0FF");
+//<circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+
+					boys.append("circle")
+						.attr("r", 25)
+						.attr("cx", "50px")
+						.attr("cy", "100px")
+						.attr("fill", "#E0E0FF")
+						.classed("gender-circles", true)
+						.on("click", circleHalo);
 
 					boys.append("text")
-						.attr("x", "60px")
-						.attr("y", "120px")
+						.attr("x", "33px")
+						.attr("y", "105px")
 						.text("Boys");
 
 					//Girls
@@ -157,75 +181,78 @@
 								.text("Select age.");
 						});
 
-					girls.append("rect")
-						.attr("width", 50)
-						.attr("height", 30)
-						.attr("x", "100px")
-						.attr("y", "100px")
-						.attr("fill", "#FFF5FF");
+					girls.append("circle")
+						.attr("r", 25)
+						.attr("cx", "100px")
+						.attr("cy", "100px")
+						.attr("fill", "#FFF5FF")
+						.classed("gender-circles", true)
+						.on("click", circleHalo);
 
 					girls.append("text")
-						.attr("x", "110px")
-						.attr("y", "120px")
+						.attr("x", "85px")
+						.attr("y", "105px")
 						.text("Girls");
 
 
 					//3 year olds
 					var threes = buttons.append("g")
 						.on("click", function() {
-							userAge = "3yrs";
+							userAge = 3;
 							updateViz();
 						});
 
-					threes.append("rect")
-						.attr("width", 40)
-						.attr("height", 30)
-						.attr("x", "40px")
-						.attr("y", "130px")
-						.attr("fill", "#DBFFDB");
+					threes.append("circle")
+						.attr("r", 15)
+						.attr("cx", "50px")
+						.attr("cy", "145px")
+						.classed("age-circles", true)
+						.on("click", circleHalo);
+
 
 					threes.append("text")
-						.attr("x", "45px")
+						.attr("x", "48px")
 						.attr("y", "150px")
-						.text("3yrs");
+						.text("3");
+
 
 					//4 year olds
 					var fours = buttons.append("g")
 						.on("click", function() {
-							userAge = "4yrs";
+							userAge = 4;
 							updateViz();
 						});
 					
-					fours.append("rect")
-						.attr("width", 40)
-						.attr("height", 30)
-						.attr("x", "80px")
-						.attr("y", "130px")
-						.attr("fill", "#C2FFC2");
+					fours.append("circle")
+						.attr("r", 15)
+						.attr("cx", "90px")
+						.attr("cy", "145px")
+						.classed("age-circles", true)
+						.on("click", circleHalo);
 
 					fours.append("text")
 						.attr("x", "85px")
 						.attr("y", "150px")
-						.text("4yrs");
+						.text("4");
 
 					//5 year olds
 					var fives = buttons.append("g")
 						.on("click", function() {
-							userAge = "5yrs";
+							userAge = 5;
 							updateViz();
 						});
 
-					fives.append("rect")
-						.attr("width", 40)
-						.attr("height", 30)
-						.attr("x", "120px")
-						.attr("y", "130px")
-						.attr("fill", "gray");
+					fives.append("circle")
+						.attr("r", 15)
+						.attr("cx", "130px")
+						.attr("cy", "145px")
+						.classed("age-circles", true)
+						.on("click", circleHalo);
 
 					fives.append("text")
 						.attr("x", "125px")
 						.attr("y", "150px")
-						.text("5yrs");
+						.text("5");
 
 					//Reset button
 					var reset = buttons.append("g")
@@ -237,14 +264,15 @@
 						});
 
 					reset.append("rect")
-						.attr("width", 50)
+						.attr("width", 55)
 						.attr("height", 30)
-						.attr("x", "125px")
+						.attr("x", "40px")
 						.attr("y", "200px")
-						.attr("fill", "gray");
+						.attr("stroke", "gray")
+						.attr("fill", "white");
 
 					reset.append("text")
-						.attr("x", "125px")
+						.attr("x", "48px")
 						.attr("y", "220px")
 						.text("Reset");
 
@@ -260,6 +288,31 @@
 					buttons.attr("transform", "translate(0,100) scale(1.3)");
 
 
+					//Title
+					var title = svg.append("g");
+
+					title.append("text")
+						.attr("x", "600px")
+						.attr("y", "70px")
+						.classed("title", true)
+						.text("Preschool in Kenya");
+
+					title.append("text")
+						.attr("x", "600px")
+						.attr("y", "90px")
+						.classed("subtitle", true)
+						.text("Preschool enrolment in the 47 counties. 2013 data.");
+
+
+
+
+
+					//Not working as I want it. If you select sequentially, circleHalo() doesn't yet toggle on and off. Also doesn't work if you click on the text, instead of the circle. 
+					function circleHalo() {
+						console.log("hello world");
+						//d3.select(this).classed("halo-circle", true);
+					}
+
 
 					//The initial, aggregate-level map
 					function firstViz() {
@@ -267,6 +320,9 @@
 					//Resetting the user selections
 					userSubset = undefined;
 					userAge = undefined;
+
+					d3.selectAll(".halo-circle").classed("halo-circle", false);
+					d3.selectAll(".age-circles").classed("age-circles", true);
 
 					counties.transition()
 					 	.duration(750)
@@ -306,13 +362,15 @@
 				//Update function to look at subsets
 				function updateViz() {
 
-					if (!userSubset) { alert("Please select boys or girls.")}
+					if (!userSubset) { alert("Please select boys or girls first.")}
 
-					var userSelection = userSubset + "_" + userAge;
+					var userSelection = userSubset + "_" + userAge + "yrs";
+
+				console.log(userSelection);
 
 					d3.select(".tiny-label")
 						.text(function() {
-							return "Selected: " + userSubset + ", " + userAge + ".";
+							return "Selected: " + userSubset + ", " + userAge + " years old.";
 						});
 
 					counties.transition()

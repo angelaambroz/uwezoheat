@@ -22,13 +22,13 @@ Preschool averages, by girls and boys, for all 47 Kenyan counties in 2013.
 11. Tooltips: boys, girls, average. Note for missing datasets (if `!d.properties[userSelection]`).
 12. ~~Drop-downs for gender, age.~~
 13. Format the tooltip number (percentage).
-14. Style the drop-downs, update button.
+14. ~~Style the drop-downs, update button.~~
 15. ~~`update` function.~~
 16. ~~Enable/disable age drop-down, based on whether `!everyone` is selected.~~
 17. ~~Merge all the options of csv to json.~~
 18. ~~Transition the colors.~~
 19. ~~Add a `reset` button?~~ 
-20. Add `title`, and informative `subtitle`. `align right`?
+20. ~~Add `title`, and informative `subtitle`. `align right`?~~
 21. Color? What do people prefer?
 22. Add a color scale/legend.
 23. ~~Replace drop-downs with always-on buttons. (BOY, GIRL, 3, 4, 5.) Add these _to_ the `svg`, so no scrolling is needed.~~
@@ -38,9 +38,11 @@ Preschool averages, by girls and boys, for all 47 Kenyan counties in 2013.
 27. ~~Awesome-fy the button font.~~
 28. ~~Make a new `reset` button (point it to `firstViz()`).~~
 29. ~~Error message if `userSubset` or `userAge` (?) is missing.~~
-30. Move all the `width`, `height` styles to `<style>` for `buttons`.
+30. ~~Move all the `width`, `height` styles to `<style>` for `buttons`.~~ No.
 31. ~~Tiny text label thingie, under the buttons, about what was selected. e.g. `Selected: boys, 3 years`.~~
-32. Add `boy` and `girl` averages (over all three years) to `.csv`.   
+32. Add `boy` and `girl` averages (over all three years) to `.csv`. 
+33. ~~Yellow highlights for selected buttons.~~ Very barely functional. Might remove.
+34. Convert `title` to tooltip?
   
 
 
