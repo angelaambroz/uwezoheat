@@ -33,7 +33,7 @@ Preschool averages, by girls and boys, for all 47 Kenyan counties in 2013.
 22. Add a color scale/legend.
 23. ~~Replace drop-downs with always-on buttons. (BOY, GIRL, 3, 4, 5.) Add these _to_ the `svg`, so no scrolling is needed.~~
 24. ~~Add functionality to buttons (via `class`, `.on(click)`, `hover`, etc...).~~ 
-25. Style the buttons - prettier, milder colors; design for clarity. Rounded corners? Sleeker? 
+25. ~~Style the buttons - prettier, milder colors; design for clarity. Rounded corners? Sleeker?~~
 26. ~~Add text to the buttons.~~
 27. ~~Awesome-fy the button font.~~
 28. ~~Make a new `reset` button (point it to `firstViz()`).~~
@@ -43,6 +43,8 @@ Preschool averages, by girls and boys, for all 47 Kenyan counties in 2013.
 32. Add `boy` and `girl` averages (over all three years) to `.csv`. 
 33. ~~Yellow highlights for selected buttons.~~ Very barely functional. Might remove.
 34. Convert `title` to tooltip?
+35. ~~`topoJSON`ify the geodata.~~
+36. Figure out how to merge `csv` and `topojson` data.
   
 
 

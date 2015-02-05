@@ -6,6 +6,7 @@
 	<meta charset="utf-8">
 	<title>Preschool enrolment, Kenya, 2013</title>
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script src="http://d3js.org/topojson.v1.min.js"></script>
 	<link href='http://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Shadows+Into+Light+Two' rel='stylesheet' type='text/css'>
 	<style type="text/css">
@@ -87,7 +88,7 @@
 			.projection(projection);
 
 		//Data
-		d3.json("counties.json", function(json) {
+		d3.json("counties_compressed.json", function(json) {
 
 			d3.csv("enrolment.csv", function(csv) {
 
@@ -100,6 +101,8 @@
 	             		}
 	            });
 
+	           	var geodata = json.objects.counties.geometries;
+
 	            //Can I collapse this all into a loop?
 	            for (var i = 0; i < csv.length; i++) {
 	            	var csvCounty = csv[i].county,
@@ -111,20 +114,21 @@
 	            		girls_4yrs = csv[i].girls_4yrs,
 	            		girls_5yrs = csv[i].girls_5yrs;
 
-	            //Merging csv with geojson data
-	            	for (var j = 0; j < json.features.length; j++) {
 
-	            		var jsonCounty = json.features[j].properties.COUNTY;
+	            //Merging csv with geojson data
+	            	for (var j = 0; j < geodata.length; j++) {
+
+	            		var jsonCounty = geodata[j].id;
 
 	            		if (csvCounty == jsonCounty) {
 
-	            			json.features[j].properties.avg_all = avg_all;
-	            			json.features[j].properties.boys_3yrs = boys_3yrs;
-	            			json.features[j].properties.boys_4yrs = boys_4yrs;
-	            			json.features[j].properties.boys_5yrs = boys_5yrs;
-	            			json.features[j].properties.girls_3yrs = girls_3yrs;
-	            			json.features[j].properties.girls_4yrs = girls_4yrs;
-	            			json.features[j].properties.girls_5yrs = girls_5yrs;
+	            			geodata[j].avg_all = avg_all;
+	            			geodata[j].boys_3yrs = boys_3yrs;
+	            			geodata[j].boys_4yrs = boys_4yrs;
+	            			geodata[j].boys_5yrs = boys_5yrs;
+	            			geodata[j].girls_3yrs = girls_3yrs;
+	            			geodata[j].girls_4yrs = girls_4yrs;
+	            			geodata[j].girls_5yrs = girls_5yrs;
 
 	            			break;
 
@@ -134,14 +138,21 @@
 
 
 
+	            var geoCounties = topojson.feature(json, json.objects.counties);
+
+
 					var counties = svg.selectAll("path")
-					   .data(json.features);
+					   .data(geoCounties.features);
 
 
 					//Prepping for a fade-in
 					counties.enter()
 					   .append("path")
 					   .attr("d", path)
+					   .attr("class", function(d) {
+					   	console.log(d); 
+					   	return "county " + d.id; 
+					   })
 					   .attr("stroke", "white")
 					   .attr("fill", "white");
 
@@ -327,6 +338,7 @@
 					counties.transition()
 					 	.duration(750)
 					 	.attr("fill", function(d) {
+					 		//console.log(d);
 					   		if (d.properties.avg_all) {
 								return quantize(d.properties.avg_all);
 					   		} else {
