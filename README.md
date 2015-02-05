@@ -44,7 +44,7 @@ Preschool averages, by girls and boys, for all 47 Kenyan counties in 2013.
 33. ~~Yellow highlights for selected buttons.~~ Very barely functional. Might remove.
 34. Convert `title` to tooltip?
 35. ~~`topoJSON`ify the geodata.~~
-36. Figure out how to merge `csv` and `topojson` data.
+36. ~~Figure out how to merge `csv` and `topojson` data.~~
   
 
 

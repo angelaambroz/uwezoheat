@@ -122,20 +122,20 @@
 
 	            		if (csvCounty == jsonCounty) {
 
-	            			geodata[j].avg_all = avg_all;
-	            			geodata[j].boys_3yrs = boys_3yrs;
-	            			geodata[j].boys_4yrs = boys_4yrs;
-	            			geodata[j].boys_5yrs = boys_5yrs;
-	            			geodata[j].girls_3yrs = girls_3yrs;
-	            			geodata[j].girls_4yrs = girls_4yrs;
-	            			geodata[j].girls_5yrs = girls_5yrs;
+	            			geodata[j].properties = {};
+	            			geodata[j].properties.avg_all = avg_all;
+	            			geodata[j].properties.boys_3yrs = boys_3yrs;
+	            			geodata[j].properties.boys_4yrs = boys_4yrs;
+	            			geodata[j].properties.boys_5yrs = boys_5yrs;
+	            			geodata[j].properties.girls_3yrs = girls_3yrs;
+	            			geodata[j].properties.girls_4yrs = girls_4yrs;
+	            			geodata[j].properties.girls_5yrs = girls_5yrs;
 
 	            			break;
 
 	            		}
 	            	}
 	            }
-
 
 
 	            var geoCounties = topojson.feature(json, json.objects.counties);
@@ -149,10 +149,7 @@
 					counties.enter()
 					   .append("path")
 					   .attr("d", path)
-					   .attr("class", function(d) {
-					   	console.log(d); 
-					   	return "county " + d.id; 
-					   })
+					   .attr("class", function(d) { return "county " + d.id; })
 					   .attr("stroke", "white")
 					   .attr("fill", "white");
 
@@ -388,6 +385,7 @@
 					counties.transition()
 						.duration(750)
 						.attr("fill", function(d) {
+							console.log(d);
 					   		if (d.properties[userSelection]) {
 					   			return quantize(d.properties[userSelection]);
 					   		} else {
