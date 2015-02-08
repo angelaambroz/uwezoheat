@@ -55,7 +55,7 @@ Preschool averages, by girls and boys, for all 47 Kenyan counties in 2013.
 * Tutorial: [Open Health Data Platform - How to//Choropleth map](http://www.cde.org.uk/howto/choropleth-maps/)
 * Tutorial: [Safari Books - Building a choropleth map](https://www.safaribooksonline.com/library/view/data-visualization-with/9781782162162/ch12s04.html)
 * Tutorial: [Synthesis - Learning D3: Choropleth maps](http://synthesis.sbecker.net/articles/2012/07/18/learning-d3-part-7-choropleth-maps)
-* Tutorial: [Visible Dtaa - Responsive legends with d3](https://eyeseast.github.io/visible-data/2013/08/27/responsive-legends-with-d3/)
+* Tutorial: [Visible Data - Responsive legends with d3](https://eyeseast.github.io/visible-data/2013/08/27/responsive-legends-with-d3/)
 * Tutorial: [Visible Data - Responsive maps (to resizing)](https://eyeseast.github.io/visible-data/2013/08/26/responsive-d3/)
 * Tutorial: [School of Data - How to: Choropleth maps with d3](http://schoolofdata.org/2014/06/06/how-to-choropleth-maps-with-d3/)
 * Resource: [LeafLet.js](http://leafletjs.com/reference.html)

@@ -58,7 +58,7 @@
 	<script type="text/javascript">
 
 		var w = 1000,
-			h = 1000,
+			h = 700,
 			userSubset, userAge;
 
 		var svg = d3.select("body")
@@ -95,7 +95,7 @@
 
 		var projection = d3.geo.mercator()
 			.rotate([5,0,0])
-			.translate([w/30-2400,h/2-100])
+			.translate([w/30-2400,h/2+40])
 			.scale(3800);
 
 		var path = d3.geo.path()
@@ -155,278 +155,277 @@
 	            var geoCounties = topojson.feature(json, json.objects.counties);
 
 
-					var counties = svg.selectAll("path")
-					   .data(geoCounties.features);
+				var counties = svg.selectAll("path")
+				   .data(geoCounties.features);
 
 
-					//Prepping for a fade-in
-					counties.enter()
-					   .append("path")
-					   .attr("d", path)
-					   .attr("class", function(d) { return "county " + d.id; })
-					   .attr("stroke", "white")
-					   .attr("fill", "white");
+				//Prepping for a fade-in
+				counties.enter()
+				   .append("path")
+				   .attr("d", path)
+				   .attr("class", function(d) { return "county " + d.id; })
+				   .attr("stroke", "white")
+				   .attr("fill", "white");
 
 
-					//On-canvas buttons
-					var buttons = svg.append("g")
-						.attr("class", "buttons");
+				//On-canvas buttons
+				var buttons = svg.append("g")
+					.attr("class", "buttons");
 
-					//Boys
-					var boys = buttons.append("g")
-						.on("click", function() {
-							userSubset = "boys";
-							d3.select(".tiny-label")
-								.text("Select age.");			
-						});
+				//Boys
+				var boys = buttons.append("g")
+					.on("click", function() {
+						userSubset = "boys";
+						d3.select(".tiny-label")
+							.text("Select age.");			
+					});
 
-//<circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+				boys.append("circle")
+					.attr("r", 25)
+					.attr("cx", "50px")
+					.attr("cy", "100px")
+					.attr("fill", "#E0E0FF")
+					.classed("gender-circles", true)
+					.on("click", circleHalo);
 
-					boys.append("circle")
-						.attr("r", 25)
-						.attr("cx", "50px")
-						.attr("cy", "100px")
-						.attr("fill", "#E0E0FF")
-						.classed("gender-circles", true)
-						.on("click", circleHalo);
+				boys.append("text")
+					.attr("x", "33px")
+					.attr("y", "105px")
+					.text("Boys");
 
-					boys.append("text")
-						.attr("x", "33px")
-						.attr("y", "105px")
-						.text("Boys");
+				//Girls
+				var girls = buttons.append("g")
+					.on("click", function() {
+						userSubset = "girls";
+						d3.select(".tiny-label")
+							.text("Select age.");
+					});
 
-					//Girls
-					var girls = buttons.append("g")
-						.on("click", function() {
-							userSubset = "girls";
-							d3.select(".tiny-label")
-								.text("Select age.");
-						});
+				girls.append("circle")
+					.attr("r", 25)
+					.attr("cx", "100px")
+					.attr("cy", "100px")
+					.attr("fill", "#FFF5FF")
+					.classed("gender-circles", true)
+					.on("click", circleHalo);
 
-					girls.append("circle")
-						.attr("r", 25)
-						.attr("cx", "100px")
-						.attr("cy", "100px")
-						.attr("fill", "#FFF5FF")
-						.classed("gender-circles", true)
-						.on("click", circleHalo);
-
-					girls.append("text")
-						.attr("x", "85px")
-						.attr("y", "105px")
-						.text("Girls");
+				girls.append("text")
+					.attr("x", "85px")
+					.attr("y", "105px")
+					.text("Girls");
 
 
-					//3 year olds
-					var threes = buttons.append("g")
-						.on("click", function() {
-							userAge = 3;
-							updateViz();
-						});
+				//3 year olds
+				var threes = buttons.append("g")
+					.on("click", function() {
+						userAge = 3;
+						updateViz();
+					});
 
-					threes.append("circle")
-						.attr("r", 15)
-						.attr("cx", "50px")
-						.attr("cy", "145px")
-						.classed("age-circles", true)
-						.on("click", circleHalo);
-
-
-					threes.append("text")
-						.attr("x", "48px")
-						.attr("y", "150px")
-						.text("3");
+				threes.append("circle")
+					.attr("r", 15)
+					.attr("cx", "50px")
+					.attr("cy", "145px")
+					.classed("age-circles", true)
+					.on("click", circleHalo);
 
 
-					//4 year olds
-					var fours = buttons.append("g")
-						.on("click", function() {
-							userAge = 4;
-							updateViz();
-						});
-					
-					fours.append("circle")
-						.attr("r", 15)
-						.attr("cx", "90px")
-						.attr("cy", "145px")
-						.classed("age-circles", true)
-						.on("click", circleHalo);
-
-					fours.append("text")
-						.attr("x", "85px")
-						.attr("y", "150px")
-						.text("4");
-
-					//5 year olds
-					var fives = buttons.append("g")
-						.on("click", function() {
-							userAge = 5;
-							updateViz();
-						});
-
-					fives.append("circle")
-						.attr("r", 15)
-						.attr("cx", "130px")
-						.attr("cy", "145px")
-						.classed("age-circles", true)
-						.on("click", circleHalo);
-
-					fives.append("text")
-						.attr("x", "125px")
-						.attr("y", "150px")
-						.text("5");
-
-					//Reset button
-					var reset = buttons.append("g")
-						.on("click", function() {
-							d3.select(".tiny-label")
-								.text("Reset to: All-Kenya average.");
-							
-							firstViz();
-						});
-
-					reset.append("rect")
-						.attr("width", 55)
-						.attr("height", 30)
-						.attr("x", "40px")
-						.attr("y", "200px")
-						.attr("stroke", "gray")
-						.attr("fill", "white");
-
-					reset.append("text")
-						.attr("x", "48px")
-						.attr("y", "220px")
-						.text("Reset");
+				threes.append("text")
+					.attr("x", "48px")
+					.attr("y", "150px")
+					.text("3");
 
 
-					//Tiny label
-					buttons.append("text")
-						.attr("class", "tiny-label")
-						.attr("x", "40px")
-						.attr("y", "175px")
-						.text("Please make your selection.");
+				//4 year olds
+				var fours = buttons.append("g")
+					.on("click", function() {
+						userAge = 4;
+						updateViz();
+					});
+				
+				fours.append("circle")
+					.attr("r", 15)
+					.attr("cx", "90px")
+					.attr("cy", "145px")
+					.classed("age-circles", true)
+					.on("click", circleHalo);
 
-					//Moving the buttons around
-					buttons.attr("transform", "translate(0,100) scale(1.3)");
+				fours.append("text")
+					.attr("x", "85px")
+					.attr("y", "150px")
+					.text("4");
 
+				//5 year olds
+				var fives = buttons.append("g")
+					.on("click", function() {
+						userAge = 5;
+						updateViz();
+					});
 
-					//Title
-					var title = svg.append("g");
+				fives.append("circle")
+					.attr("r", 15)
+					.attr("cx", "130px")
+					.attr("cy", "145px")
+					.classed("age-circles", true)
+					.on("click", circleHalo);
 
-					title.append("text")
-						.attr("x", "600px")
-						.attr("y", "70px")
-						.classed("title", true)
-						.text("Preschool in Kenya");
+				fives.append("text")
+					.attr("x", "125px")
+					.attr("y", "150px")
+					.text("5");
 
-					title.append("text")
-						.attr("x", "600px")
-						.attr("y", "90px")
-						.classed("subtitle", true)
-						.text("Preschool enrolment in the 47 counties. 2013 data.");
+				//Reset button
+				var reset = buttons.append("g")
+					.on("click", function() {
+						d3.select(".tiny-label")
+							.text("Reset to: All-Kenya average.");
+						
+						firstViz();
+					});
 
-					//Color legend
+				reset.append("rect")
+					.attr("width", 55)
+					.attr("height", 30)
+					.attr("x", "40px")
+					.attr("y", "200px")
+					.attr("stroke", "gray")
+					.attr("fill", "white");
 
-					  var legend = svg.selectAll("g.legend")
-					  .data(legend_domain)
-					  .enter().append("g")
-					  .attr("class", "legend");
-
-					  var ls_w = 20, ls_h = 20;
-
-					  legend.append("rect")
-					  .attr("x", 20)
-					  .attr("y", function(d, i){ return h - (i*ls_h) - 2*ls_h;})
-					  .attr("width", ls_w)
-					  .attr("height", ls_h)
-					  .style("fill", function(d, i) { return quantize(d); })
-					  .style("opacity", 0.8);
-
-					legend.append("text")
-					  .attr("x", 50)
-					  .attr("y", function(d, i){ return h - (i*ls_h) - ls_h - 4;})
-					  .text(function(d, i){ return legend_labels[i]; });
-
-
-
-					//Not working as I want it. If you select sequentially, circleHalo() doesn't yet toggle on and off. Also doesn't work if you click on the text, instead of the circle. 
-					function circleHalo() {
-						console.log("hello world");
-						//d3.select(this).classed("halo-circle", true);
-					}
-
-
-					//The initial, aggregate-level map
-					function firstViz() {
-
-					//Resetting the user selections
-					userSubset = undefined;
-					userAge = undefined;
-
-					d3.selectAll(".halo-circle").classed("halo-circle", false);
-					d3.selectAll(".age-circles").classed("age-circles", true);
-
-					counties.transition()
-					 	.duration(750)
-					 	.attr("fill", function(d) {
-					 		//console.log(d);
-					   		if (d.properties.avg_all) {
-								return quantize(d.properties.avg_all);
-					   		} else {
-					   			return "rgb(232,232,232)";
-					   		}					   		
-					   });
-
-					//Static labels for printing
-					/*
-					    svg.selectAll("text")
-						    .data(json.features)
-						    .enter()
-						    .append("svg:text")
-						    .text(function(d){
-						        return d.properties.COUNTY;
-						    })
-						    .attr("x", function(d){
-						        return path.centroid(d)[0];
-						    })
-						    .attr("y", function(d){
-						        return  path.centroid(d)[1];
-						    })
-						    .attr("font-family", "Arial")
-						    .attr("text-anchor","middle")
-						    .attr("font-size","4pt");
-						*/
-
-					}
-
-					firstViz();
+				reset.append("text")
+					.attr("x", "48px")
+					.attr("y", "220px")
+					.text("Reset");
 
 
-				//Update function to look at subsets
-				function updateViz() {
+				//Tiny label
+				buttons.append("text")
+					.attr("class", "tiny-label")
+					.attr("x", "40px")
+					.attr("y", "175px")
+					.text("Please make your selection.");
 
-					if (!userSubset) { alert("Please select boys or girls first.")}
+				//Moving the buttons around
+				buttons.attr("transform", "translate(0,100) scale(1.3)");
 
-					var userSelection = userSubset + "_" + userAge + "yrs";
 
-				console.log(userSelection);
+				//Title
+				var title = svg.append("g");
 
-					d3.select(".tiny-label")
-						.text(function() {
-							return "Selected: " + userSubset + ", " + userAge + " years old.";
-						});
+				title.append("text")
+					.attr("x", "600px")
+					.attr("y", "70px")
+					.classed("title", true)
+					.text("Preschool in Kenya");
 
-					counties.transition()
-						.duration(750)
-						.attr("fill", function(d) {
-							console.log(d);
-					   		if (d.properties[userSelection]) {
-					   			return quantize(d.properties[userSelection]);
-					   		} else {
-					   			return "rgb(232,232,232)";
-					   		}					   		
-					   });
-					}; //update function closer
+				title.append("text")
+					.attr("x", "600px")
+					.attr("y", "90px")
+					.classed("subtitle", true)
+					.text("Preschool enrolment in the 47 counties. 2013 data.");
+
+				//Color legend
+
+				  var legend = svg.selectAll("g.legend")
+				  .data(legend_domain)
+				  .enter().append("g")
+				  .attr("class", "legend");
+
+				  var ls_w = 20, ls_h = 20;
+
+				  legend.append("rect")
+				  .attr("x", 20)
+				  .attr("y", function(d, i){ return h - (i*ls_h) - 2*ls_h;})
+				  .attr("width", ls_w)
+				  .attr("height", ls_h)
+				  .style("fill", function(d, i) { return quantize(d); })
+				  .style("opacity", 0.8);
+
+				legend.append("text")
+				  .attr("x", 50)
+				  .attr("y", function(d, i){ return h - (i*ls_h) - ls_h - 4;})
+				  .text(function(d, i){ return legend_labels[i]; });
+
+				//Moving the color legend up and to the left
+				legend.attr("transform", "translate(750,-250)");
+
+
+
+				//Not working as I want it. If you select sequentially, circleHalo() doesn't yet toggle on and off. Also doesn't work if you click on the text, instead of the circle. 
+				function circleHalo() {
+					console.log("hello world");
+					//d3.select(this).classed("halo-circle", true);
+				}
+
+
+				//The initial, aggregate-level map
+				function firstViz() {
+
+				//Resetting the user selections
+				userSubset = undefined;
+				userAge = undefined;
+
+				d3.selectAll(".halo-circle").classed("halo-circle", false);
+				d3.selectAll(".age-circles").classed("age-circles", true);
+
+				counties.transition()
+				 	.duration(750)
+				 	.attr("fill", function(d) {
+				   		if (d.properties.avg_all) {
+							return quantize(d.properties.avg_all);
+				   		} else {
+				   			return "rgb(232,232,232)";
+				   		}					   		
+				   });
+
+				//Static labels for printing
+				/*
+				    svg.selectAll("text")
+					    .data(json.features)
+					    .enter()
+					    .append("svg:text")
+					    .text(function(d){
+					        return d.properties.COUNTY;
+					    })
+					    .attr("x", function(d){
+					        return path.centroid(d)[0];
+					    })
+					    .attr("y", function(d){
+					        return  path.centroid(d)[1];
+					    })
+					    .attr("font-family", "Arial")
+					    .attr("text-anchor","middle")
+					    .attr("font-size","4pt");
+					*/
+
+				}
+
+				firstViz();
+
+
+			//Update function to look at subsets
+			function updateViz() {
+
+				if (!userSubset) { alert("Please select boys or girls first.")}
+
+				var userSelection = userSubset + "_" + userAge + "yrs";
+
+			console.log(userSelection);
+
+				d3.select(".tiny-label")
+					.text(function() {
+						return "Selected: " + userSubset + ", " + userAge + " years old.";
+					});
+
+				counties.transition()
+					.duration(750)
+					.attr("fill", function(d) {
+				   		if (d.properties[userSelection]) {
+				   			return quantize(d.properties[userSelection]);
+				   		} else {
+				   			return "rgb(232,232,232)"; 
+				   		}					   		
+				   });
+				}; //update function closer
 
 
 				}); //csv closer
