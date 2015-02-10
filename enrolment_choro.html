@@ -77,7 +77,7 @@
 
 
 		<div id="tooltip" class="hidden" style="left: 429px, top: 489.6px">
-			<p>The average enrolment rate for <strong><span id="age">4</span> year old <span id="gender">girls</span></strong> in <strong><span id="county">Mandera</span></strong> county is <span id="avg_enrolment">0.22</span>.</p>
+			<p>The enrolment rate for <strong><span id="age">4</span> year old <span id="gender">girls</span></strong> in <strong><span id="county">Mandera</span></strong> county is <span id="avg_enrolment">0.22</span>.</p>
 		</div>
 
 
@@ -148,7 +148,7 @@
 			d3.select("#avg_enrolment")
 				.text(function() {
 					if (d.id === "Kirinyaga") {
-						return "not available (this county was not surveyed)."
+						return "not available (this county was not surveyed)";
 					}
 					else if (!userSelection) {
 						return formatted(d.properties.avg_4yrs);
@@ -194,7 +194,6 @@
 	            		girls_3yrs = csv[i].girls_3yrs,
 	            		girls_4yrs = csv[i].girls_4yrs,
 	            		girls_5yrs = csv[i].girls_5yrs;
-
 
 	            //Merging csv with geojson data
 	            	for (var j = 0; j < geodata.length; j++) {
