@@ -29,7 +29,7 @@ Preschool averages, by girls and boys, for all 47 Kenyan counties in 2013.
 18. ~~Transition the colors.~~
 19. ~~Add a `reset` button?~~ 
 20. ~~Add `title`, and informative `subtitle`. `align right`?~~
-21. Color? What do people prefer?
+21. ~~Color? What do people prefer?~~
 22. ~~Add a color scale/legend.~~
 23. ~~Replace drop-downs with always-on buttons. (BOY, GIRL, 3, 4, 5.) Add these _to_ the `svg`, so no scrolling is needed.~~
 24. ~~Add functionality to buttons (via `class`, `.on(click)`, `hover`, etc...).~~ 

@@ -59,7 +59,8 @@
 
 		var w = 1000,
 			h = 700,
-			userSubset, userAge;
+			userSubset, userAge,
+			formatted = d3.format("%");
 
 		var svg = d3.select("body")
 			.append("svg")
@@ -68,30 +69,13 @@
 
 		var quantize = d3.scale.quantize()
 			.domain([0, 1])
-			.range(["rgb(215,48,39)", //red/green scale
-					"rgb(244,109,67)", 
+			.range(["rgb(215,25,28)", //red/green scale - 5-point
 					"rgb(253,174,97)", 
-					"rgb(254,224,139)", 
 					"rgb(255,255,191)", 
-					"rgb(217,239,139)", 
-					"rgb(166,217,106)", 
-					"rgb(102,189,99)", 
-					"rgb(26,152,80)",
-					"rgb(0,104,55)"]);
+					"rgb(166,217,106)",
+					"rgb(26,150,65)"]);
 
-		var legend_domain = [0,.1,.2,.3,.4,.5,.6,.7,.8,.9],
-			legend_labels = ["<10%", "10%-20%", "20%-30%", "30%-40%", "40%-50%", "50%-60%", "60%-70%", "70%-80%", "80%-90%", "90%+"];
-
-/* Monochromatic scale
-"rgb(247,251,255)", 
-"rgb(222,235,247)", 
-"rgb(198,219,239)", 
-"rgb(158,202,225)",
-"rgb(107,174,214)",
-"rgb(66,146,198)",
-"rgb(33,113,181)",
-"rgb(8,81,156)",
-"rgb(8,48,107)"]); */		
+		var legend_labels = ["0% - 19%", "20% - 39%", "40% - 59%", "60% - 79%", "80% - 100%"];   
 
 		var projection = d3.geo.mercator()
 			.rotate([5,0,0])
@@ -112,6 +96,7 @@
 	              		d["boys_"+i+"yrs"] = +d["boys_"+i+"yrs"];
 	              		d["girls_"+i+"yrs"] = +d["girls_"+i+"yrs"];
 	              		d.avg_all = +d.avg_all;
+	              		d.avg_4yrs = +d.avg_4yrs;
 	             		}
 	            });
 
@@ -121,6 +106,7 @@
 	            for (var i = 0; i < csv.length; i++) {
 	            	var csvCounty = csv[i].county,
 	            		avg_all = csv[i].avg_all,
+	            		avg_4yrs = csv[i].avg_4yrs,
 	            		boys_3yrs = csv[i].boys_3yrs,
 	            		boys_4yrs = csv[i].boys_4yrs,
 	            		boys_5yrs = csv[i].boys_5yrs,
@@ -138,6 +124,7 @@
 
 	            			geodata[j].properties = {};
 	            			geodata[j].properties.avg_all = avg_all;
+	            			geodata[j].properties.avg_4yrs = avg_4yrs;
 	            			geodata[j].properties.boys_3yrs = boys_3yrs;
 	            			geodata[j].properties.boys_4yrs = boys_4yrs;
 	            			geodata[j].properties.boys_5yrs = boys_5yrs;
@@ -154,7 +141,6 @@
 
 	            var geoCounties = topojson.feature(json, json.objects.counties);
 
-
 				var counties = svg.selectAll("path")
 				   .data(geoCounties.features);
 
@@ -167,7 +153,7 @@
 				   .attr("stroke", "white")
 				   .attr("fill", "white");
 
-
+/*
 				//On-canvas buttons
 				var buttons = svg.append("g")
 					.attr("class", "buttons");
@@ -321,35 +307,10 @@
 					.attr("x", "600px")
 					.attr("y", "90px")
 					.classed("subtitle", true)
-					.text("Preschool enrolment in the 47 counties. 2013 data.");
-
-				//Color legend
-
-				  var legend = svg.selectAll("g.legend")
-				  .data(legend_domain)
-				  .enter().append("g")
-				  .attr("class", "legend");
-
-				  var ls_w = 20, ls_h = 20;
-
-				  legend.append("rect")
-				  .attr("x", 20)
-				  .attr("y", function(d, i){ return h - (i*ls_h) - 2*ls_h;})
-				  .attr("width", ls_w)
-				  .attr("height", ls_h)
-				  .style("fill", function(d, i) { return quantize(d); })
-				  .style("opacity", 0.8);
-
-				legend.append("text")
-				  .attr("x", 50)
-				  .attr("y", function(d, i){ return h - (i*ls_h) - ls_h - 4;})
-				  .text(function(d, i){ return legend_labels[i]; });
-
-				//Moving the color legend up and to the left
-				legend.attr("transform", "translate(750,-250)");
+					.text("Enrolment data by Uwezo. Collected in 2013.");
 
 
-
+*/
 				//Not working as I want it. If you select sequentially, circleHalo() doesn't yet toggle on and off. Also doesn't work if you click on the text, instead of the circle. 
 				function circleHalo() {
 					console.log("hello world");
@@ -367,37 +328,84 @@
 				d3.selectAll(".halo-circle").classed("halo-circle", false);
 				d3.selectAll(".age-circles").classed("age-circles", true);
 
-				counties.transition()
-				 	.duration(750)
-				 	.attr("fill", function(d) {
-				   		if (d.properties.avg_all) {
-							return quantize(d.properties.avg_all);
-				   		} else {
-				   			return "rgb(232,232,232)";
-				   		}					   		
-				   });
 
 				//Static labels for printing
-				/*
-				    svg.selectAll("text")
-					    .data(json.features)
+				
+				svg.selectAll("text")
+					    .data(geoCounties.features)
 					    .enter()
-					    .append("svg:text")
-					    .text(function(d){
-					        return d.properties.COUNTY;
+					    .append("text")
+					    .text(function(d, i) {
+						    return d.id;
 					    })
-					    .attr("x", function(d){
+					    .attr("x", function(d) {
 					        return path.centroid(d)[0];
 					    })
-					    .attr("y", function(d){
+					    .attr("y", function(d) {
 					        return  path.centroid(d)[1];
 					    })
 					    .attr("font-family", "Arial")
 					    .attr("text-anchor","middle")
 					    .attr("font-size","4pt");
-					*/
 
-				}
+				//Color legend
+
+				  var legend = svg.selectAll("g.legend")
+				  .data(quantize.range())
+				  .enter().append("g")
+				  .attr("class", "legend");
+
+				  var ls_w = 20, ls_h = 20;
+
+				  legend.append("rect")
+				  .attr("x", 20)
+				  .attr("y", function(d, i) { return h - (i*ls_h) - 2*ls_h;})
+				  .attr("width", ls_w)
+				  .attr("height", ls_h)
+				  .style("fill", function(d, i) { return d; });
+
+				  //gray
+				  legend.append("rect")
+				  	.attr("x", 20)
+				  	.attr("y", 700)
+					.attr("width", ls_w)
+					.attr("height", ls_h)
+					.style("fill",  "rgb(232,232,232)");
+
+				legend.append("text")
+				  .attr("x", 50)
+				  .attr("y", function(d, i){ return h - (i*ls_h) - ls_h - 4;})
+				  .text(function(d, i){ 
+				  	return legend_labels[i];
+				  	//return formatted(quantize.invertExtent(d)[0]) + " - " + formatted(quantize.invertExtent(d)[1]); 
+				  });
+
+				legend.append("text")
+				  .attr("x", 50)
+				  .attr("y", 710)
+				  .text("Not surveyed.");
+
+
+				//Moving the color legend up and to the left
+				legend.attr("transform", "translate(750,-250)");
+				
+
+				//Actual viz
+				counties.transition()
+				 	.duration(750)
+				 	.attr("fill", function(d) {
+				   		if (d.properties.avg_4yrs) {
+							return quantize(d.properties.avg_4yrs);
+				   		} else {
+				   			return "rgb(232,232,232)";
+				   		}					   		
+				   });
+
+				counties.on("click", function(d) {
+					console.log(d.properties.avg_4yrs);
+				});
+
+				}//end firstViz()
 
 				firstViz();
 
@@ -425,6 +433,12 @@
 				   			return "rgb(232,232,232)"; 
 				   		}					   		
 				   });
+
+
+				counties.on("click", function(d) {
+					console.log(d.properties[userSelection]);
+				});
+
 				}; //update function closer
 
 
