@@ -19,9 +19,9 @@ Preschool averages, by girls and boys, for all 47 Kenyan counties in 2013.
 8. ~~Apply color fill to counties, based on enrolment rates.~~
 9. ~~Add static text labels for each county.~~
 10. ~~Style static text.~~
-11. Tooltips: boys, girls, average. Note for missing datasets (if `!d.properties[userSelection]`).
+11. ~~Tooltips: boys, girls, average. Note for missing datasets (if `!d.properties[userSelection]`).~~
 12. ~~Drop-downs for gender, age.~~
-13. Format the tooltip number (percentage).
+13. ~~Format the tooltip number (percentage).~~
 14. ~~Style the drop-downs, update button.~~
 15. ~~`update` function.~~
 16. ~~Enable/disable age drop-down, based on whether `!everyone` is selected.~~
@@ -42,7 +42,7 @@ Preschool averages, by girls and boys, for all 47 Kenyan counties in 2013.
 31. ~~Tiny text label thingie, under the buttons, about what was selected. e.g. `Selected: boys, 3 years`.~~
 32. Add `boy` and `girl` averages (over all three years) to `.csv`. 
 33. ~~Yellow highlights for selected buttons.~~ Very barely functional. Might remove.
-34. Convert `title` to tooltip?
+34. ~~Convert `title` to tooltip?~~ No.
 35. ~~`topoJSON`ify the geodata.~~
 36. ~~Figure out how to merge `csv` and `topojson` data.~~
 37. Small design changes: add `.on(mouseover)` functionality: darken/brighten the buttons, etc.
