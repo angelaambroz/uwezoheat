@@ -55,7 +55,7 @@
 	position: absolute;
 	width: 150px;
 	height: auto;
-	padding: 5px;
+	padding: 5px 10px;
 	background-color: white;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
@@ -176,7 +176,7 @@
 	            	for (var i = 3; i<=5; i++) {
 	              		d["boys_"+i+"yrs"] = +d["boys_"+i+"yrs"];
 	              		d["girls_"+i+"yrs"] = +d["girls_"+i+"yrs"];
-	              		d.avg_all = +d.avg_all;
+	              		//d.avg_all = +d.avg_all;
 	              		d.avg_4yrs = +d.avg_4yrs;
 	             		}
 	            });
@@ -186,7 +186,7 @@
 	            //Can I collapse this all into a loop?
 	            for (var i = 0; i < csv.length; i++) {
 	            	var csvCounty = csv[i].county,
-	            		avg_all = csv[i].avg_all,
+	            		//avg_all = csv[i].avg_all,
 	            		avg_4yrs = csv[i].avg_4yrs,
 	            		boys_3yrs = csv[i].boys_3yrs,
 	            		boys_4yrs = csv[i].boys_4yrs,
@@ -203,7 +203,7 @@
 	            		if (csvCounty == jsonCounty) {
 
 	            			geodata[j].properties = {};
-	            			geodata[j].properties.avg_all = avg_all;
+	            			//geodata[j].properties.avg_all = avg_all;
 	            			geodata[j].properties.avg_4yrs = avg_4yrs;
 	            			geodata[j].properties.boys_3yrs = boys_3yrs;
 	            			geodata[j].properties.boys_4yrs = boys_4yrs;
